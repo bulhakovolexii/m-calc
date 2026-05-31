@@ -1,5 +1,5 @@
 {
-  "name": "majak-calc",
+  "name": "m-calc",
   "version": "0.1.0",
   "description": "Heat load calculation module — EN 12831-1 Method 8",
   "type": "module",

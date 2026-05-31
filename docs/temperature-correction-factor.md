@@ -23,7 +23,6 @@ In case of heat loss to unheated spaces and ceiling heights < 4 m, the temperatu
 
 ### Table B.2 — Temperature adjustment term $\text{f}_\text{l}$, default values
 
-```html
 <table border="1">
   <thead>
     <tr>
@@ -100,8 +99,6 @@ In case of heat loss to unheated spaces and ceiling heights < 4 m, the temperatu
     </tr>
   </tbody>
 </table>
-
-```
 
 > a A room can be considered as a basement if more than 70 % of the external wall area is in contact with the ground.
 

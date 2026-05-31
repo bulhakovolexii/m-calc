@@ -1,4 +1,4 @@
-# majak-calc
+# m-calc
 
 TypeScript ESM module for building design heat load calculation per **EN 12831-1:2017, Method 8** (Simplified method for building design heat load).
 
@@ -12,19 +12,19 @@ Intended for use in Angular-based online calculators targeting the Ukrainian mar
 
 **Formula 54 — Building design heat load:**
 
-```
+```text
 Φ_HL,build = Φ_T,build + Φ_V,build
 ```
 
 **Formula 55 — Transmission heat loss:**
 
-```
+```text
 Φ_T,build = Σ_k [ A_k · (U_k + ΔU_TB) · f_x,k ] · (θ_int − θ_e)
 ```
 
 **Formula 56 — Ventilation heat loss:**
 
-```
+```text
 Φ_V,build = V_Build · n_Build · 0.34 · (θ_int − θ_e)
 ```
 
@@ -35,7 +35,7 @@ Method 8 is appropriate for determining the heat generator capacity (boiler, hea
 ## Installation
 
 ```bash
-npm install majak-calc
+npm install m-calc
 ```
 
 Requires Node.js ≥ 18 (ESM, `"type": "module"`).
@@ -50,7 +50,7 @@ import {
   BuildingAirtightness,
   UkrainianCity,
   getDesignTemperature,
-} from "majak-calc";
+} from "m-calc";
 
 const result = calculateHeatLoad({
   internalTemperature: 20,
@@ -147,7 +147,7 @@ Call this separately when you want per-field error display (e.g. form validation
 ### `BuildingParams`
 
 | Field | Type | Required | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `elements` | `BuildingElement[]` | yes | All outer surfaces of the thermal envelope |
 | `internalVolume` | `number` | yes | V_Build — air volume [m³] |
 | `internalTemperature` | `number` | yes | θ_int [°C] |
@@ -168,7 +168,7 @@ type BuildingElement = ExternalElement | UnheatedElement | GroundElement;
 **Fields common to all elements:**
 
 | Field | Type | Required | Description |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `id` | `string` | yes | Unique identifier |
 | `label` | `string` | no | Human-readable name for reports |
 | `area` | `number` | yes | A_k [m²] — outer surface area |
@@ -184,7 +184,7 @@ Either `uValue` or `constructionCatalogId` must be provided. When `deltaThermalB
 **`boundary: "unheated"`** — element adjacent to an unconditioned space:
 
 | Field | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `unheatedSpaceType` | `UnheatedSpaceType` | Table B.2 lookup for f_x |
 | `temperatureFactor` | `number` | Explicit f_x override |
 
@@ -193,7 +193,7 @@ When both are omitted, `f_x = 0.5` (EN 12831-1 Table B.11).
 **`boundary: "ground"`** — element adjacent to the ground:
 
 | Field | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `temperatureFactor` | `number` | Explicit f_x override |
 
 When omitted, `f_x = 0.3` (EN 12831-1 Table B.11).
@@ -204,14 +204,14 @@ When omitted, `f_x = 0.3` (EN 12831-1 Table B.11).
 
 Every auto-resolvable parameter follows the same priority order:
 
-```
+```text
 1. Explicit value     — highest priority, always wins
 2. Enum / catalog     — lookup from Table B.x or CONSTRUCTION_CATALOG
 3. Default constant   — lowest priority, applies when nothing is provided
 ```
 
 | Parameter | Explicit field | Enum/catalog | Default |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | U_k | `uValue` | `constructionCatalogId` | — *(error if both absent)* |
 | ΔU_TB | `deltaThermalBridges` | `thermalBridgeClass` | `0.10` (B.3.2) |
 | n_Build | `airChangeRate` | `buildingAirtightness` | `0.5` (B.12 STANDARD) |
@@ -224,7 +224,7 @@ Every auto-resolvable parameter follows the same priority order:
 ## Climate data
 
 ```typescript
-import { UkrainianCity, getDesignTemperature, CLIMATE_REGIONS } from "majak-calc";
+import { UkrainianCity, getDesignTemperature, CLIMATE_REGIONS } from "m-calc";
 
 // Look up θ_e for a city
 getDesignTemperature(UkrainianCity.KYIV);     // -22
@@ -248,7 +248,7 @@ import {
   ElementType,
   getEntriesByType,
   lookupConstructionUValue,
-} from "majak-calc";
+} from "m-calc";
 
 // All 26 entries
 console.log(CONSTRUCTION_CATALOG.length); // 26
@@ -265,7 +265,7 @@ lookupConstructionUValue("DOES_NOT_EXIST");          // null
 **Catalog coverage:**
 
 | Type | Count | Period range |
-|---|---|---|
+| --- | --- | --- |
 | External walls | 9 | до 1993 → після 2021 |
 | Roof / attic | 5 | до 1993 → після 2021 |
 | Floor on ground | 2 | до 1993, після 2006 |
@@ -282,7 +282,7 @@ U-values reflect in-use (degraded) conditions for historical constructions. Sour
 ### `BuildingAirtightness` — EN 12831-1 Table B.12
 
 | Value | n50 | Typical building | n_Build |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `TIGHT` | ≤ 3 h⁻¹ | Built ≥ 1995, certified windows | 0.25 h⁻¹ |
 | `STANDARD` | 3–6 h⁻¹ | Built before 1995 | 0.5 h⁻¹ |
 | `LEAKY` | > 6 h⁻¹ | Built before 1977, visible leakages | 1.0 h⁻¹ |
@@ -290,7 +290,7 @@ U-values reflect in-use (degraded) conditions for historical constructions. Sour
 ### `ThermalBridgeClass` — EN 12831-1 Table B.1
 
 | Value | ΔU_TB | Description |
-|---|---|---|
+| --- | --- | --- |
 | `MINIMIZED_ATTESTED` | 0.02 | New buildings, attested minimization |
 | `STANDARD_PRACTICE` | 0.05 | New buildings, standard practice |
 | `INTERNAL_INSULATION_SOLID_CEILING` | 0.15 | Internal insulation broken by solid ceilings |
@@ -299,7 +299,7 @@ U-values reflect in-use (degraded) conditions for historical constructions. Sour
 ### `UnheatedSpaceType` — EN 12831-1 Table B.2
 
 | Value | f_x | Space description |
-|---|---|---|
+| --- | --- | --- |
 | `ROOM_1_EXTERNAL_WALL` | 0.4 | Room with 1 external wall |
 | `ROOM_2_EXTERNAL_WALLS_NO_DOOR` | 0.5 | Room with 2 external walls, no external door |
 | `ROOM_2_EXTERNAL_WALLS_WITH_DOOR` | 0.6 | Room with 2 external walls and external door |
@@ -320,7 +320,7 @@ U-values reflect in-use (degraded) conditions for historical constructions. Sour
 ### Form validation before calculation
 
 ```typescript
-import { validate, calculateHeatLoad } from "majak-calc";
+import { validate, calculateHeatLoad } from "m-calc";
 
 const errors = validate(params);
 if (errors.length > 0) {
@@ -360,7 +360,7 @@ if (errors.length > 0) {
 ### Element adjacent to unheated basement
 
 ```typescript
-import { UnheatedSpaceType } from "majak-calc";
+import { UnheatedSpaceType } from "m-calc";
 
 {
   id: "floor-over-basement",
@@ -389,7 +389,7 @@ TypeScript strict mode is enabled throughout:
 ## Standards and sources
 
 | Document | Used for |
-|---|---|
+| --- | --- |
 | **EN 12831-1:2017** | Core calculation method (Formulas 54–56), default values (Annex B) |
 | **ДСТУ-Н Б В.1.1-27:2010** | Design external temperatures for 57 Ukrainian cities |
 | **СНиП II-3-79** | U-values for Soviet-era wall and roof constructions |
