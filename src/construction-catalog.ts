@@ -2,7 +2,7 @@
  * Catalog of typical Ukrainian building construction types with U-values.
  * EN 12831-1 A.4.3 — Simplified determination of U-values.
  *
- * Data sourced from Gemini Deep Research (docs/deep-research-report.md),
+ * Data sourced from Gemini Deep Research,
  * cross-referenced with СНиП II-3-79, ДБН В.2.6-31 (2006/2016/2021),
  * ДСТУ-Н Б А.2.2-5:2007, EN ISO 10077-1:2017, EN ISO 13370.
  *

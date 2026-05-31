@@ -99,7 +99,7 @@ console.log(`Total load:   ${(result.totalHeatLoad / 1000).toFixed(2)} kW`);
 // Total load:   15.37 kW
 ```
 
-A fully annotated version of this example is in [examples/example-calculation.ts](examples/example-calculation.ts). A step-by-step walkthrough with formula references is in [example-calculation-explanation.md](docs/example-calculation-explanation.md).
+A fully annotated version of this example is in [examples/example-calculation.ts](examples/example-calculation.ts). A step-by-step walkthrough with formula references is in [example-calculation-explanation.md](examples/example-calculation-explanation.md).
 
 ---
 
